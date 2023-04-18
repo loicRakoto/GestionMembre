@@ -116,6 +116,8 @@ $(document).ready(function () {
         $('.afferror').append('<li> Suppression effectuer </li>');
         fetchData();
         $('#formMembre')[0].reset();
+        $("[name='idmember']").val('');
+        $('input#btn').val('Enregistrer');
       }
     });
   });
@@ -164,6 +166,7 @@ $(document).ready(function () {
             $('.afferror').append('<li> Ajout réussie </li>');
             fetchData();
             $('#formMembre')[0].reset();
+            $("[name='idmember']").val('');
           }
         }
       });
@@ -208,6 +211,7 @@ $(document).ready(function () {
             fetchData();
             $('#formMembre')[0].reset();
             $('input#btn').val('Enregistrer');
+            $("[name='idmember']").val('');
           }
         }
       });
