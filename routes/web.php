@@ -5,7 +5,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\membreController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\userController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +42,5 @@ Route::group(['middleware' => ['auth', PreventBackHistory::class]], function () 
 Route::get('/login', [loginController::class, 'index'])->name('login');
 Route::post('/authenticate', [loginController::class, 'authenticate'])->name('login.authenticate');
 Route::get('/logout', [loginController::class, 'logout'])->name('login.logout');
+
+Route::post('/addUser', [userController::class, 'store'])->name('user.store');
