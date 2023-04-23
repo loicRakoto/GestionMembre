@@ -41,8 +41,9 @@ Route::get('/membre/search', [membreController::class, 'find'])->name('membre.fi
 
 Route::get('/activite', [activiteController::class, 'index'])->name('activite.index');
 Route::put('/activite/add', [activiteController::class, 'store'])->name('activite.store');
-
-
+Route::get('/activite/edit', [activiteController::class, 'edit'])->name('activite.edit');
+Route::post('/activite/update', [activiteController::class, 'update'])->name('activite.update');
+Route::post('/activite/delete', [activiteController::class, 'destroy'])->name('activite.destroy');
 ///////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/login', [loginController::class, 'index'])->name('login');
 Route::post('/authenticate', [loginController::class, 'authenticate'])->name('login.authenticate');

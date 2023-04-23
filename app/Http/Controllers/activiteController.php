@@ -90,7 +90,7 @@ class activiteController extends Controller
             $participation->save();
         }
 
-        return response()->redirectToRoute('activite.index');
+        return response()->redirectToRoute('activite.index')->with('success', 'Ajout réussie');
     }
 
     /**
@@ -107,12 +107,15 @@ class activiteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+
+        $activite = Activite::all()->find($request->id);
+
+        return $activite;
     }
 
     /**
@@ -122,19 +125,38 @@ class activiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $existAct = Activite::all()->find($request->identifiant);
+
+        $existAct->Nom_activite = $request->Nom;
+        $existAct->Description = $request->Description;
+        $existAct->Date_debut = $request->Debut;
+        $existAct->Date_fin = $request->Fin;
+        $existAct->Lieux = $request->Lieux;
+        $existAct->Responsable = $request->Responsable;
+        $existAct->Cout = $request->Cout;
+        $existAct->update();
+
+        return response()->redirectToRoute('activite.index')->with('success', 'Modification réussie');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->item_id;
+
+        $existAct = Activite::all()->find($id);
+        $existAct->delete();
+
+        $existPart = DB::table('participers')->where('activite_id', $id);
+        $existPart->delete();
+
+        return response()->redirectToRoute('activite.index')->with('success', 'Suppression réussie');
     }
 }

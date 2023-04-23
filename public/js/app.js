@@ -217,6 +217,37 @@ $(document).ready(function () {
       });
     }
   });
+
+  // ACTIVITE ===========================================================================================
+
+  $(document).on('click', '.modifAct', function () {
+    var ident = $(this).attr('id');
+    $.ajax({
+      method: "GET",
+      url: "/activite/edit",
+      data: {
+        'id': ident
+      },
+      dataType: "json",
+      success: function success(response) {
+        $('#identActModif').val(response.id);
+        $('#NomModifAct').val(response.Nom_activite);
+        $('#DescriptionModifAct').val(response.Description);
+        $('#DebutModifAct').val(response.Date_debut);
+        $('#FinModifAct').val(response.Date_fin);
+        $('#LieuxModifAct').val(response.Lieux);
+        $('#ResponsableModifAct').val(response.Responsable);
+        $('#CoutModifAct').val(response.Cout);
+        $('#formModifActiv').modal('show');
+      }
+    });
+  });
+  $(document).on('click', '.deleteAct', function (e) {
+    e.preventDefault();
+    var recup = $(this).attr('id');
+    $('.idhide').val(recup);
+    $('#deleteModal').modal('show');
+  });
 });
 
 /***/ }),
