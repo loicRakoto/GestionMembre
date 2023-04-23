@@ -80,7 +80,7 @@
                         </div>
                         <div class="card-body">
                           <input type="text" id="search" placeholder="Recherche" ><i class="fa-solid fa-magnifying-glass"></i>
-                            <table id="example" class="table table-hover" id="">
+                            <table class="table table-striped" style="text-align: center;" id="example" class="table table-hover" id="">
                                 <thead>
                                   <tr>
                                     <th scope="col">#</th>

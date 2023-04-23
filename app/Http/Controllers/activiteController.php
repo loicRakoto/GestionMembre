@@ -19,6 +19,17 @@ class activiteController extends Controller
     {
         $activiteList = Activite::all();
 
+
+        //Recuperation des participants
+        $paticipant = DB::table('participers')->where('activite_id', 1)->count('*');
+
+        //Recupereration de la liste des membres ayant payer
+        $NbrPaye = DB::table('participers')->where('activite_id', 1)->where('Status_payement', 'PAYER')->count('*');
+
+        //Recuperation de la liste des membres n'ayant pas encore payer
+        $NbrNonPaye = DB::table('participers')->where('activite_id', 1)->where('Status_payement', 'NON PAYER')->count('*');
+
+
         return view('/ACTIVITES/listActivite', compact('activiteList'));
     }
 

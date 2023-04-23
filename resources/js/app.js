@@ -21,8 +21,8 @@ $(document).ready(function () {
                         <td>'+ Item.Adresse + '</td>\
                         <td>'+ Item.Promotion + '</td>\
                         <td>\
-                            <a href="#" id="'+ Item.id + '" class="modification"><i class="fa-solid fa-pencil" style="color: rgb(25 103 58);"></i></a> \
-                            <a href="#" id="'+ Item.id + '" class="delete" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-user-slash" style="color: rgb(219, 25, 25)"></i></a>\
+                            <a href="#" id="'+ Item.id + '" class="btn btn-warning btn-sm modification"><i class="fa-solid fa-marker"></i></a> \
+                            <a href="#" id="'+ Item.id + '" class="btn btn-danger btn-sm delete" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-broom"></i></a>\
                         </td>\
                     </tr > \
                   ');

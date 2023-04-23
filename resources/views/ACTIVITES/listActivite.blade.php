@@ -16,31 +16,82 @@
             </div>           
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table table-striped" style="text-align: center;">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Activité</th>
+                    <th scope="col">Lieux</th>
+                    <th scope="col">Responsable</th>
+                    <th scope="col">Payer</th>
+                    <th scope="col">Non payer</th>
+                    <th scope="col">Disponibilté</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                     @foreach ($activiteList as $item)
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                    @php
+                        $participant = DB::table('participers')
+                                        ->where('activite_id', $item->id )
+                                        ->count('*');
+
+                        $NbrPaye = DB::table('participers')
+                                        ->where('activite_id', $item->id )
+                                        ->where('Status_payement','PAYER')
+                                        ->count('*');
+
+                        $NbrNonPaye = DB::table('participers')
+                                        ->where('activite_id', $item->id )
+                                        ->where('Status_payement','NON PAYER')
+                                        ->count('*');
+
+                        $dateExpiration = $item->Date_fin;
+                        $dateNow = date('Y-m-d');
+                        
+                        $status= null;
+
+                        if($dateExpiration < $dateNow ){
+                            $status = 'expirer';
+                        }else {
+                            $status = 'disponible';
+                        }
+
+                        
+                    @endphp
+
+                        <tr class="listActTabl">
+                            <th>{{ $item->id }}</th>
+                            <td>{{ $item->Nom_activite }}</td>
+                            <td>{{ $item->Lieux }}</td>
+                            <td>{{ $item->Responsable }}</td>
+                            <td>{{ $NbrPaye }}/{{ $participant }}</td>
+                            <td>{{ $NbrNonPaye }}/{{ $participant }}</td>
+                            @if ( $status == 'expirer')
+                               <td><i class="fa-solid fa-circle-xmark fa-lg" style="color: #782121;"></i></td>
+                            @else
+                                <td><i class="fa-solid fa-circle-check fa-lg" style="color: #006625;"></i></td>
+                            @endif
+                            
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fa-sharp fa-solid fa-circle-info"></i></a>
+                                <a href="#" class="btn btn-warning btn-sm" style="color: white"><i class="fa-solid fa-marker"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm"><i class="fa-solid fa-broom"></i></a>
+                            </td>
                         </tr>
                     @endforeach
+                                              
                 
                 </tbody>
               </table>
         </div>
     </div>
 
-
+<style>
+    tr.listActTabl th,td{
+        vertical-align: middle;
+    }
+</style>
 
 
   
