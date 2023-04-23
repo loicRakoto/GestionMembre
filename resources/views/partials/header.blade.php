@@ -9,8 +9,8 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ route('membre.index') }}">Membres</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Activites</a>
+          <li class="nav-item"> 
+            <a class="nav-link active" aria-current="page" href="{{ route('activite.index') }}">Activites</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Participation</a>

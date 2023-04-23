@@ -15,9 +15,9 @@ $(document).ready(function () {
       dataType: 'json',
       method: 'GET',
       success: function success(fetching) {
-        $('tbody').html('');
+        $('tbody#bodyMembre').html('');
         $.each(fetching, function (key, Item) {
-          $('tbody').append('\
+          $('tbody#bodyMembre').append('\
                     <tr>\
                         <th scope="row">' + Item.id + '</th>\
                         <td>' + Item.Nom + '</td>\
@@ -49,7 +49,7 @@ $(document).ready(function () {
       success: function success(e) {
         $('tbody').html('');
         $.each(e, function (key, Item) {
-          $('tbody').append('\
+          $('tbody#bodyMembre').append('\
                     <tr>\
                         <th scope="row">' + Item.id + '</th>\
                         <td>' + Item.Nom + '</td>\
