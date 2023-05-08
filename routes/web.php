@@ -6,6 +6,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\membreController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\infoActivClientController;
 use App\Http\Controllers\userController;
 
 /*
@@ -28,25 +29,27 @@ use App\Http\Controllers\userController;
 Route::group(['middleware' => ['auth', PreventBackHistory::class]], function () {
 
     // Vos routes ici
+    Route::get('/membre', [membreController::class, 'index'])->name('membre.index');
+    Route::post('/membre/add', [membreController::class, 'store'])->name('membre.store');
+    Route::get('/fetchData', [membreController::class, 'fetchdata'])->name('membre.fetch');
+    Route::get('/membre/edit', [membreController::class, 'edit'])->name('membre.edit');
+    Route::post('/membre/update', [membreController::class, 'update'])->name('membre.update');
+    Route::get('/membre/delete', [membreController::class, 'destroy'])->name('membre.destroy');
+    Route::get('/membre/search', [membreController::class, 'find'])->name('membre.find');
 
+    Route::get('/activite', [activiteController::class, 'index'])->name('activite.index');
+    Route::put('/activite/add', [activiteController::class, 'store'])->name('activite.store');
+    Route::get('/activite/edit', [activiteController::class, 'edit'])->name('activite.edit');
+    Route::post('/activite/update', [activiteController::class, 'update'])->name('activite.update');
+    Route::post('/activite/delete', [activiteController::class, 'destroy'])->name('activite.destroy');
+
+    Route::get('/infoActivite/{idActivite}', [infoActivClientController::class, 'index'])->name('infoActivite.index');
+    Route::get('/affichageBarPayement', [infoActivClientController::class, 'affichageBarPayement'])->name('infoActivite.affichageBarPayement');
+    Route::post('/modifActivitePay', [infoActivClientController::class, 'modifActivite'])->name('infoActivite.modifActivite');
 });
 
-Route::get('/membre', [membreController::class, 'index'])->name('membre.index');
-Route::post('/membre/add', [membreController::class, 'store'])->name('membre.store');
-Route::get('/fetchData', [membreController::class, 'fetchdata'])->name('membre.fetch');
-Route::get('/membre/edit', [membreController::class, 'edit'])->name('membre.edit');
-Route::post('/membre/update', [membreController::class, 'update'])->name('membre.update');
-Route::get('/membre/delete', [membreController::class, 'destroy'])->name('membre.destroy');
-Route::get('/membre/search', [membreController::class, 'find'])->name('membre.find');
-
-Route::get('/activite', [activiteController::class, 'index'])->name('activite.index');
-Route::put('/activite/add', [activiteController::class, 'store'])->name('activite.store');
-Route::get('/activite/edit', [activiteController::class, 'edit'])->name('activite.edit');
-Route::post('/activite/update', [activiteController::class, 'update'])->name('activite.update');
-Route::post('/activite/delete', [activiteController::class, 'destroy'])->name('activite.destroy');
 ///////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/login', [loginController::class, 'index'])->name('login');
 Route::post('/authenticate', [loginController::class, 'authenticate'])->name('login.authenticate');
 Route::get('/logout', [loginController::class, 'logout'])->name('login.logout');
-
 Route::post('/addUser', [userController::class, 'store'])->name('user.store');

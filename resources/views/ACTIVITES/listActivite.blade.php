@@ -30,6 +30,7 @@
                     <th scope="col">Responsable</th>
                     <th scope="col">Payer</th>
                     <th scope="col">Non payer</th>
+                    <th scope="col">Engager</th>
                     <th scope="col">Disponibilté</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -49,6 +50,11 @@
                         $NbrNonPaye = DB::table('participers')
                                         ->where('activite_id', $item->id )
                                         ->where('Status_payement','NON PAYER')
+                                        ->count('*');
+
+                        $NbrEngager = DB::table('participers')
+                                        ->where('activite_id', $item->id )
+                                        ->where('Status_payement','ENGAGER')
                                         ->count('*');
 
                         $dateExpiration = $item->Date_fin;
@@ -72,6 +78,7 @@
                             <td>{{ $item->Responsable }}</td>
                             <td>{{ $NbrPaye }}/{{ $participant }}</td>
                             <td>{{ $NbrNonPaye }}/{{ $participant }}</td>
+                            <td>{{ $NbrEngager }}/{{ $participant }}</td>
                             @if ( $status == 'expirer')
                                <td><i class="fa-solid fa-circle-xmark fa-lg" style="color: #782121;"></i></td>
                             @else
@@ -79,7 +86,7 @@
                             @endif
                             
                             <td>
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa-sharp fa-solid fa-circle-info"></i></a>
+                                <a href="{{ route('infoActivite.index', ['idActivite'=>$item->id]) }}" class="btn btn-primary btn-sm"><i class="fa-sharp fa-solid fa-circle-info"></i></a>
                                 <a href="#" id="{{ $item->id }}" class="btn btn-warning btn-sm modifAct" style="color: white"><i class="fa-solid fa-marker"></i></a>
                                 <a href="#" id="{{ $item->id }}" class="btn btn-danger btn-sm deleteAct"><i class="fa-solid fa-broom"></i></a>
                             </td>
@@ -125,7 +132,6 @@
                         <label for="Description" class="form-label">Description</label>                      
                         <div class="form-floating">       
                             <textarea class="form-control" id="Description" name="Description" placeholder="" id="floatingTextarea2" style="height: 100px" required></textarea>
-                            <label for="floatingTextarea2">Description d'activité</label>
                         </div>
                     </div>
                 </div>
@@ -165,7 +171,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="Cout" class="form-label">Coût</label>
-                            <input placeholder="Coût d'activité" type="text" name="Cout" class="form-control" id="Cout" required>
+                            <input placeholder="Coût d'activité" type="number" name="Cout" class="form-control" id="Cout" required>
                         </div>
                     </div>
                     <div class="col">                       
@@ -209,7 +215,7 @@
                         <label for="Description" class="form-label">Description</label>                      
                         <div class="form-floating">       
                             <textarea class="form-control" id="DescriptionModifAct" name="Description" placeholder="" id="floatingTextarea2" style="height: 100px" required></textarea>
-                            <label for="floatingTextarea2">Description d'activité</label>
+                            
                         </div>
                     </div>
                 </div>
@@ -249,7 +255,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="Cout" class="form-label">Coût</label>
-                            <input placeholder="Coût d'activité" type="text" name="Cout" class="form-control" id="CoutModifAct" required>
+                            <input placeholder="Coût d'activité" type="number" name="Cout" class="form-control" id="CoutModifAct" required>
                         </div>
                     </div>
                     <div class="col">                       

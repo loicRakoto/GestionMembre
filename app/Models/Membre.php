@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Membre extends Model
 {
     use HasFactory;
+
+    public function participerss()
+    {
+        return $this->hasMany(participer::class);
+    }
 }

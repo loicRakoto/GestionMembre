@@ -1,3 +1,5 @@
+const { split } = require("lodash");
+
 $(document).ready(function () {
 
 
@@ -54,8 +56,8 @@ $(document).ready(function () {
                         <td>'+ Item.Adresse + '</td>\
                         <td>'+ Item.Promotion + '</td>\
                         <td>\
-                            <a href="#" id="'+ Item.id + '" class="modification"><i class="fa-solid fa-pencil" style="color: rgb(25 103 58);"></i></a> \
-                            <a href="#" id="'+ Item.id + '" class="delete" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-user-slash" style="color: rgb(219, 25, 25)"></i></a>\
+                            <a href="#" id="'+ Item.id + '" class="btn btn-warning btn-sm modification"><i class="fa-solid fa-marker"></i></a> \
+                            <a href="#" id="'+ Item.id + '" class="btn btn-danger btn-sm delete" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-broom"></i></a>\
                         </td>\
                     </tr > \
                   ');
@@ -267,6 +269,74 @@ $(document).ready(function () {
         var recup = $(this).attr('id');
         $('.idhide').val(recup);
         $('#deleteModal').modal('show');
+
+    });
+
+    // Activite info =================================================================================================================
+
+
+    $(document).on('click', '.controlePayement', function () {
+
+        $('form#formPayement')[0].reset();
+
+        var id = $(this).attr('id');
+        console.log(id);
+        var splite = split(id, '/');
+        var activiteId = splite[0];
+        var membreId = splite[1];
+
+        $.ajax({
+            method: "GET",
+            url: "/affichageBarPayement",
+            data: {
+                'activiteId': activiteId,
+                'membreId': membreId
+
+            },
+            dataType: "JSON",
+            success: function (response) {
+
+                // console.log(response.infoPayement.id);
+                var statusPaye = response.infoPayement.Status_payement;
+                var resteEngagement = response.infoPayement.Reste;
+                $('.identParticiper').val(response.infoPayement.id);
+                $('strong.affContr.nom').html(response.membreInfo.Nom);
+                $('strong.affContr.prenom').html(response.membreInfo.Prenom);
+                $('strong.affContr.filli').html(response.membreInfo.Filliere);
+                $('strong.affContr.adres').html(response.membreInfo.Adresse);
+                $('strong.affContr.promot').html(response.membreInfo.Promotion);
+                $('#offcanvasRight').offcanvas('show');
+
+                if (statusPaye == "PAYER") {
+                    $('#flexRadioDefault1').prop('checked', true);
+                    $('#montantEngage').hide();
+                } else if (statusPaye == "NON PAYER") {
+                    $('#flexRadioDefault2').prop('checked', true);
+                    $('#montantEngage').hide();
+                } else if (statusPaye == "ENGAGER") {
+                    $('#montantEngage').show();
+                    $('.engageMontant').val(resteEngagement);
+                    $('#flexRadioDefault3').prop('checked', true);
+                }
+
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $(document).on('click', '#flexRadioDefault1', function () {
+
+            $('#montantEngage').fadeOut(1000);
+        });
+        $(document).on('click', '#flexRadioDefault2', function () {
+
+            $('#montantEngage').fadeOut(1000);
+        });
+        $(document).on('click', '#flexRadioDefault3', function () {
+
+            $('#montantEngage').fadeIn(1000);
+        });
 
     });
 
