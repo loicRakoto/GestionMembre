@@ -21,7 +21,7 @@
             </div>           
         </div>
         <div class="card-body">
-            <table class="table table-striped" style="text-align: center;">
+            <table id="example" class="table table-striped" style="text-align: center;">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
@@ -96,6 +96,10 @@
                 
                 </tbody>
               </table>
+
+
+
+              
         </div>
     </div>
 

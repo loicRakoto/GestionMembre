@@ -13,7 +13,7 @@
             <a class="nav-link active" aria-current="page" href="{{ route('activite.index') }}">Activites</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Participation</a>
+            <a class="nav-link active" aria-current="page" href="{{ route('participant.index') }}">Participation</a>
           </li>
         </ul>
         <form class="d-flex">

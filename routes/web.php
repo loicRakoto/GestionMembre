@@ -7,6 +7,7 @@ use App\Http\Controllers\membreController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\infoActivClientController;
+use App\Http\Controllers\participationController;
 use App\Http\Controllers\userController;
 
 /*
@@ -46,6 +47,9 @@ Route::group(['middleware' => ['auth', PreventBackHistory::class]], function () 
     Route::get('/infoActivite/{idActivite}', [infoActivClientController::class, 'index'])->name('infoActivite.index');
     Route::get('/affichageBarPayement', [infoActivClientController::class, 'affichageBarPayement'])->name('infoActivite.affichageBarPayement');
     Route::post('/modifActivitePay', [infoActivClientController::class, 'modifActivite'])->name('infoActivite.modifActivite');
+
+
+    Route::get('/participant', [participationController::class, 'index'])->name('participant.index');
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////
