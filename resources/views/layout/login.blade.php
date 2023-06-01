@@ -93,7 +93,7 @@
             </div>
         </div>
     </div>
-    <script src="/js/loginPubic.js"></script>
+    <script src="/js/all.js"></script>
  
 </body>
 </html>
