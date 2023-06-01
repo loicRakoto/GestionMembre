@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use function PHPUnit\Framework\returnSelf;
 
@@ -48,6 +49,7 @@ class membreController extends Controller
     {
 
 
+
         $validation = Validator::make(request()->all(), [
             'nom' => 'required',
             'prenom' => 'required',
@@ -56,6 +58,8 @@ class membreController extends Controller
             'promotion' => 'required',
         ]);
 
+        $pathe = null;
+        $fileName = null;
 
         if ($validation->fails()) {
             return response()->json([
@@ -63,6 +67,28 @@ class membreController extends Controller
                 'messageError' => $validation->errors()->all()
             ]);
         } else {
+
+            // Veriification de l'image 
+            if (!$request->hasFile('image')) {
+
+                $pathe = '';
+            } else {
+
+                $fileName = $request->file('image')->getClientOriginalName();
+            }
+
+            if (Storage::disk('public')->exists($fileName)) {
+                $pathe = $request->file('image')->storeAs('images', $fileName, 'public');
+            } else {
+                // Le fichier n'existe pas
+                if (!$request->hasFile('image')) {
+                    $pathe = '';
+                } else {
+                    $pathe = $request->file('image')->storeAs('images', $fileName, 'public');
+                }
+            }
+
+            // dd($pathe);
 
             $nom = $request->nom;
             $prenom = $request->prenom;
@@ -77,6 +103,7 @@ class membreController extends Controller
             $membre->Filliere = $filliere;
             $membre->Adresse = $adresse;
             $membre->Promotion = $promotion;
+            $membre->imageMembre = $pathe;
             $membre->save();
 
 
@@ -138,8 +165,9 @@ class membreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Response $response)
+    public function update(Request $request)
     {
+
         $validation = Validator::make(request()->all(), [
             'nom' => 'required',
             'prenom' => 'required',
@@ -149,6 +177,8 @@ class membreController extends Controller
         ]);
 
 
+        $pathe = null;
+        $fileName = null;
         if ($validation->fails()) {
             return response()->json([
                 'status' => 400,
@@ -156,7 +186,27 @@ class membreController extends Controller
             ]);
         } else {
 
-            $id = $request->id;
+            // Veriification de l'image 
+            if (!$request->hasFile('image')) {
+                $pathe = '';
+            } else {
+                $fileName = $request->file('image')->getClientOriginalName();
+            }
+
+            if (Storage::disk('public')->exists($fileName)) {
+                $pathe = $request->file('image')->storeAs('images', $fileName, 'public');
+            } else {
+                // Le fichier n'existe pas
+                if (!$request->hasFile('image')) {
+                    $pathe = '';
+                } else {
+
+                    $pathe = $request->file('image')->storeAs('images', $fileName, 'public');
+                }
+            }
+
+
+            $id = $request->idmember;
             $nom = $request->nom;
             $prenom = $request->prenom;
             $filliere = $request->filliere;
@@ -165,11 +215,13 @@ class membreController extends Controller
 
             $exist = Membre::find($id);
 
+
             $exist->Nom = $nom;
             $exist->Prenom = $prenom;
             $exist->Filliere = $filliere;
             $exist->Adresse = $adresse;
             $exist->Promotion = $promotion;
+            $exist->imageMembre = $pathe;
             $exist->update();
 
             return response()->json([

@@ -15,7 +15,7 @@
                             <div class="card-body">
 
                                 
-                                <form id="formMembre" action="">
+                                <form id="formMembre" method="post" enctype="multipart/form-data">
                                     @csrf    
                                     
                                     <input type="hidden" name="idmember" value="">
@@ -61,7 +61,11 @@
                                             <input name="promotion" type="text" class="form-control" placeholder="Année de promotion" aria-label="Username" aria-describedby="basic-addon1">
                                         </div>
                                       </div>
-                                      <div class="col"></div>
+                                      <div class="col">
+                                        <div class="input-group mb-3">
+                                          <input name="image" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                        </div>
+                                      </div>
                                     </div>
 
                                     <div class="input-group mt-3 d-flex justify-content-end">
@@ -80,7 +84,7 @@
                         </div>
                         <div class="card-body">
                           <input type="text" id="search" placeholder="Recherche" ><i class="fa-solid fa-magnifying-glass"></i>
-                            <table class="table table-striped" style="text-align: center;" id="example" class="table table-hover" id="">
+                            <table class="table table-striped" style="text-align: center;" id="exampless" class="table table-hover" >
                                 <thead>
                                   <tr>
                                     <th scope="col">#</th>

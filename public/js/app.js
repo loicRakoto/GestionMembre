@@ -88,6 +88,7 @@ $(document).ready(function () {
         $("[name='filliere']").val(ex.Filliere);
         $("[name='adresse']").val(ex.Adresse);
         $("[name='promotion']").val(ex.Promotion);
+        // $("[name='image']").val(ex.imageMembre);
         $('input#btn').val('Modifier');
       }
     });
@@ -123,34 +124,27 @@ $(document).ready(function () {
       }
     });
   });
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
   $('#formMembre').submit(function (e) {
     e.preventDefault();
-    // var data = $(this).serializeArray();
-    // var jsondata = JSON.stringify(data);
-
     var faire = $("[name='idmember']").val();
     if (faire == '') {
       //AJOUT
 
-      var jsondata = {
-        'nom': $("[name='nom']").val(),
-        'prenom': $("[name='prenom']").val(),
-        'filliere': $("[name='filliere']").val(),
-        'adresse': $("[name='adresse']").val(),
-        'promotion': $("[name='promotion']").val()
-      };
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          'Content-Type': 'application/json'
-        }
-      });
+      var formData = new FormData(this);
+      //var formData = new FormData($('#formMembre')[0])[0];
+
       $.ajax({
-        url: '/membre/add',
-        data: JSON.stringify(jsondata),
-        dataType: 'json',
-        contentType: 'application/json',
         type: 'POST',
+        url: '/membre/add',
+        data: formData,
+        contentType: false,
+        processData: false,
+        cache: false,
         success: function success(e) {
           // console.log(e);
 
@@ -174,28 +168,27 @@ $(document).ready(function () {
       });
     } else {
       //MODIFICATION
-      var id = $("[name='idmember']").val();
-      var token = $("[name='_token']").val();
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          'Content-Type': 'application/json'
-        }
-      });
-      var value = {
-        'id': id,
-        'token': token,
-        'nom': $("[name='nom']").val(),
-        'prenom': $("[name='prenom']").val(),
-        'filliere': $("[name='filliere']").val(),
-        'adresse': $("[name='adresse']").val(),
-        'promotion': $("[name='promotion']").val()
-      };
+      // var id = $("[name='idmember']").val();
+      // var token = $("[name='_token']").val();
+
+      // var value = {
+      //     'id': id,
+      //     'token': token,
+      //     'nom': $("[name='nom']").val(),
+      //     'prenom': $("[name='prenom']").val(),
+      //     'filliere': $("[name='filliere']").val(),
+      //     'adresse': $("[name='adresse']").val(),
+      //     'promotion': $("[name='promotion']").val(),
+      // }
+
+      var _formData = new FormData(this);
       $.ajax({
         url: 'membre/update',
-        method: 'POST',
-        data: JSON.stringify(value),
-        dataType: 'json',
+        type: 'POST',
+        data: _formData,
+        contentType: false,
+        processData: false,
+        cache: false,
         success: function success(e) {
           if (e.status == 400) {
             $('.afferror').html('');
